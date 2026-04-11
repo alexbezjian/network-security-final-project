@@ -1,151 +1,64 @@
-# Secure Messenger
+Make sure that your submission includes a clear README on how to install your application (both the server and the client). 
 
-A single-file secure peer-to-peer messaging system using X25519 Diffie-Hellman key exchange and AES-GCM encryption.
+The installation should be pre-configured for at least 3 users. The README should indicate the usernames and passwords of the authorized users.
+__________________________________________________________________
 
----
+Secure Messenger: A single-file secure peer-to-peer messaging system built from scratch using modern cryptographic primitives. 
 
-## Prerequisites
+* Download and install Python 3.12 or higher from: https://www.python.org/downloads
+* open terminal and run: pip3 install cryptography argon2-cffi
+* pre configured users:
+    - Username: alice, Password: alice123
+    - Username: bob, Password: bob123
+    - Username: jill, Password: jill123
 
-### Option A — Plain Python (Recommended)
-Download and install Python 3.12 or higher from:
-https://www.python.org/downloads
+* at least 3 terminal windows open at a time. navigate each to the folder containing secure_messenger.py
 
-> During installation, make sure to check **"Add Python to PATH"**
+* Terminal 1: start server
+python3 secure_messenger.py server
+Expected output: [server] Listening on port 9000
+Leave this running, don't close it.
 
-### Option B — Anaconda Navigator 
-Download and install Anaconda from:
-https://www.anaconda.com/products/navigator
+* Terminal 2: Client 1 (alice)
+python3 secure_messenger.py client
+When prompted enter:
+    Username: alice
+    Password: alice123
+    Listening port (e.g. 9001): 9001
 
-launch the Anaconda navigator and navigate to the anaconda_prompt 1.1.0 and launch 3 instances (2 clients, 1 server)  
----
+* Terminal 3: Client 2 (bob)
+python3 secure_messenger.py client
+When prompted enter:
+    Username: bob
+    Password: bob123
+    Listening port (e.g. 9001): 9002
 
-## Installation
+* Terminal 4: Client 3 (jill, optional)
+python3 secure_messenger.py client
+When prompted enter:
+    Username: jill
+    Password: jill123
+    Listening port (e.g. 9001): 9003
 
-Open a terminal (CMD, PowerShell, or Anaconda Prompt) and install the required libraries:
+Each client must use a different listening port. The server always runs on port 9000, so use 9001, 9002, 9003 for clients.
 
-```bash
-pip install argon2-cffi
-pip install cryptography
-```
+* Remote Server is also an option: 
+    - if the server is running on a different machine, put its IP as an argument:
+    python3 secure_messenger.py client 192.168.1.10
 
----
+* Commands: once logged in, the following commands are available 
+list — show all currently online users
+send USER MESSAGE — send an end-to-end encrypted message to a user
+exit — log out cleanly and close the client
+help — show available commands
 
-## Pre-Configured Users
-
-| Username | Password   |
-|----------|------------|
-| alice    | alice123   |
-| bob      | bob123     |
-| albert   | albert123  |
-
----
-
-## Usage
-
-You will need **3 separate terminal windows** open at the same time. In each window, navigate to the folder containing `messenger.py`:
-
-```bash
-cd path/to/project/folder
-```
-
-### Terminal 1 — Start the Server
-
-```bash
-python messenger.py server
-```
-
-Expected output:
-```
-Server running on port 9000
-```
-
-Leave this window running. Do not close it.
-
-### Terminal 2 — Start Client 1 (alice)
-
-```bash
-python messenger.py client
-```
-
-When prompted:
-```
-Username: alice
-Password: alice123
-Listening port: 9001
-```
-
-### Terminal 3 — Start Client 2 (bob)
-
-```bash
-python messenger.py client
-```
-
-When prompted:
-```
-Username: bob
-Password: bob123
-Listening port: 9002
-```
-
-### Optional: Terminal 4 — Start Client 3 (albert)
-
-```bash
-python messenger.py client
-```
-
-When prompted:
-```
-Username: albert
-Password: albert123
-Listening port: 9003
-```
-
-> Each client must use a **different listening port**. The server runs on port 9000, so clients start at 9001 and increment (9001, 9002, 9003, etc.).
-
----
-
-## Commands
-
-Once logged in, the following commands are available:
-
-| Command              | Description                        |
-|----------------------|------------------------------------|
-| `list`               | Show all currently online users    |
-| `send USER MESSAGE`  | Send an encrypted message to a user|
-| `exit`               | Log out and close the client       |
-
-### Example
-
-```
+Example:
 list
-send bob Hey, are you there?
-send alice Hello back!
+send bob Hey Bob, this is my message!
+send alice Hey Alice!
 exit
-```
 
----
-
-## Restarting
-
-1. Press `Ctrl+C` in each terminal window to stop all processes
+* Restarting
+1. Press Ctrl+C in each terminal window to stop all processes
 2. Open 3 fresh terminal windows
 3. Follow the Usage steps above again
-
----
-
-## Troubleshooting
-
-**"Module not found" error**
-Run the pip install commands in the Installation section above.
-
-**"Address already in use" error**
-The server or a client is still running in another window. Close it and try again.
-
-**"Login failed"**
-Check that the username and password match the table above exactly. They are case-sensitive.
-
-**"User not online"**
-Make sure the recipient has logged in before you attempt to send them a message.
-
-**Permission error on listening port**
-Do not use ports below 1024. Use 9001, 9002, 9003, etc. for clients.
